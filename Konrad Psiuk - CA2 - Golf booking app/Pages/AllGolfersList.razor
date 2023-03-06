@@ -1,0 +1,31 @@
+﻿@page "/allgolfers"
+
+<button class="btn btn-success" onclick="@CreateNewGolfer">Add new golfer</button>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>First name</th>
+            <th>Last name</th>
+            <th>Email address</th>
+            <th>Sex</th>
+            <th>Current handicap</th>
+             <th>Edit</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var golfer in AllGolfers)
+        {
+            <tr>
+                <td>@golfer.Id</td>
+                <td>@golfer.FirstName</td>
+                <td>@golfer.LastName</td>
+                <td>@golfer.EmailAddress</td>
+                <td>@golfer.Sex</td>
+                <td>@golfer.Handicap</td>
+                <td><button class="btn btn-success" onclick="@(() => EditGolfer(golfer.Id))">Edit</button></td>
+            </tr>
+        }
+    </tbody>
+</table>

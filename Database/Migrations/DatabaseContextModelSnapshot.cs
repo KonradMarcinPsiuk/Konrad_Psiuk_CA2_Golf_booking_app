@@ -53,7 +53,7 @@ namespace Database.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("nNme")
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
@@ -99,7 +99,7 @@ namespace Database.Migrations
             modelBuilder.Entity("Database.TeeBooking", b =>
                 {
                     b.HasOne("Database.Tee", "BookedTee")
-                        .WithMany()
+                        .WithMany("Bookings")
                         .HasForeignKey("BookedTeeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -120,6 +120,11 @@ namespace Database.Migrations
                         .HasForeignKey("TeeBookingsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Database.Tee", b =>
+                {
+                    b.Navigation("Bookings");
                 });
 #pragma warning restore 612, 618
         }

@@ -1,0 +1,36 @@
+﻿@page "/teeview/{id}"
+@using Database.Extensions
+@if (ViewedTee != null)
+{
+    <h1 class="m3">@ViewedTee.Name</h1>
+    <h2 class="m3">Bookings:</h2>
+    @if (ViewedTee.Bookings != null)
+    {
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Time</th>
+            <th>Players</th>
+        </tr>
+        </thead>
+        <tbody>
+        
+            @foreach (var booking in ViewedTee.Bookings)
+            {
+                <tr>
+                    <td>@booking.Id</td>
+                    <td>@booking.BookingTime</td>
+                    <td>@booking.NamesToString()</td>
+                    <td><button class="btn btn-success" onclick="@(() => OpenBooking(booking.Id))">Open</button></td>
+                </tr>
+            }
+           </tbody>
+            </table>
+        }
+        else
+        {
+            <h2 class="m3"><i>There is no bookings for this tee</i></h2>
+        }
+     
+}

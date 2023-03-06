@@ -44,7 +44,11 @@ namespace Database
         public int Handicap { get; set; }
         
         public List<TeeBooking> TeeBookings { get; set; }
-    
+
+        public override string ToString()
+        {
+            return $"{FirstName} {LastName}";
+        }
     }
 
     public class Tee
@@ -52,7 +56,8 @@ namespace Database
         [Key]
         public int Id { get; set; }
         [Required]
-        public string nNme { get; set; }
+        public string Name { get; set; }
+        public List<TeeBooking> Bookings { get; set; }
     }
 
     public class TeeBooking

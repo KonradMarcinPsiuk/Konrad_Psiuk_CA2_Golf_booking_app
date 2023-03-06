@@ -1,4 +1,4 @@
-using Konrad_Psiuk___CA2___Golf_booking_app.Data;
+using Database;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 
@@ -13,7 +13,7 @@ namespace Konrad_Psiuk___CA2___Golf_booking_app
             // Add services to the container.
             builder.Services.AddRazorPages();
             builder.Services.AddServerSideBlazor();
-            builder.Services.AddSingleton<WeatherForecastService>();
+            builder.Services.AddSingleton<IGolfRepository,GolfRepository>();
 
             var app = builder.Build();
 

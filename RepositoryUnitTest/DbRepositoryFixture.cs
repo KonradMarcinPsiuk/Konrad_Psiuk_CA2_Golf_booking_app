@@ -15,7 +15,6 @@ public class DbRepositoryFixture:IDisposable
         //Create database for testing
         dbContext = new DatabaseContext();
         dbContext.Database.EnsureDeleted();
-        dbContext.Database.Migrate();
 
         GolfRepository = new GolfRepository();
     }

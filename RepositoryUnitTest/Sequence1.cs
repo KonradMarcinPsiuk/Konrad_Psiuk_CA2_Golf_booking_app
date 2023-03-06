@@ -26,7 +26,12 @@ namespace RepositoryUnitTest
             Assert.True(result);
         }
 
-       
+        [Fact]
+        public async Task GetAllTees()
+        {
+            var tees = await _fixture.GolfRepository.GetAllTees();
+            Assert.NotEmpty(tees);
+        }
       
         
     }

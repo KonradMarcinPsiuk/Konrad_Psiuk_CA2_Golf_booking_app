@@ -1,0 +1,33 @@
+﻿@page "/editgolfer/"
+@page "/editgolfer/{Id}"
+
+@if (EditedGolfer != null)
+{
+    <EditForm Model="@EditedGolfer" OnValidSubmit="@SaveGolfer">
+        
+        <div class="input-group m-3">
+            <span class="input-group-text">First and last name</span>
+            <InputText class="form-control" @bind-Value="@EditedGolfer.FirstName"></InputText>
+            <InputText class="form-control" @bind-Value="@EditedGolfer.LastName"></InputText>
+        </div>
+
+        <div class="input-group m-3">
+            <span class="input-group-text">Email address</span>
+            <InputText class="form-control" @bind-Value="@EditedGolfer.EmailAddress"></InputText>
+        </div>
+
+        <div class="input-group m-3">
+            <span class="input-group-text">Sex</span>
+            <InputText class="form-control" @bind-Value="@EditedGolfer.Sex"></InputText>
+        </div>
+
+        <div class="input-group m-3">
+            <span class="input-group-text">Handicap</span>
+            <InputNumber class="form-control" @bind-Value="@EditedGolfer.Handicap"></InputNumber>
+        </div>
+        
+        <DataAnnotationsValidator></DataAnnotationsValidator>
+        <ValidationSummary></ValidationSummary>
+        <button type="submit">Save</button>
+    </EditForm>
+}

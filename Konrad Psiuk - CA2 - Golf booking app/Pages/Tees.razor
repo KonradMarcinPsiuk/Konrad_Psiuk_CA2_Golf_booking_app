@@ -1,0 +1,21 @@
+﻿@page "/tees"
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Tee name</th>
+            <th>Open</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var tee in AllTees)
+        {
+            <tr>
+                <td>@tee.Id</td>
+                <td>@tee.Name</td>
+                <td><button class="btn btn-success" onclick="@(() => OpenTee(tee.Id))">Open</button></td>
+            </tr>
+        }
+    </tbody>
+</table>
