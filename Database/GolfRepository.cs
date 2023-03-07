@@ -6,11 +6,13 @@ namespace Database
     public interface IGolfRepository
     {
         Task<IEnumerable<Golfer>> GetAllGolfers();
-        Task<bool> AddGolfer(Golfer golfer);
+        Task<Golfer> AddGolfer(Golfer golfer);
         Task<Golfer> GetGolfer(int id);
-        Task<bool> ChangeGolfersData(Golfer golfer);
+        Task<Golfer> ChangeGolfersData(Golfer golfer);
         Task<IEnumerable<Tee>> GetAllTees();
         Task<Tee> GetTee(int id);
+        Task<TeeBooking> GetTeeBooking(int id);
+        Task<TeeBooking> SaveTeeBooking(TeeBooking booking);
 
     }
 
@@ -37,33 +39,66 @@ namespace Database
             _repository.Tees.Add(new Tee { Name = "Tee area 4" });
             _repository.Tees.Add(new Tee { Name = "Tee area 5" });
             _repository.SaveChanges();
+            _repository.ChangeTracker.Clear();
         }
 
         public async Task<IEnumerable<Golfer>> GetAllGolfers()=>
-            await _repository.Golfers.ToListAsync();
+            await _repository.Golfers.AsNoTracking().ToListAsync();
         
 
-        public async Task<bool> AddGolfer(Golfer golfer)
+        public async Task<Golfer> AddGolfer(Golfer golfer)
         {
             _repository.Golfers.Add(golfer);
-            return await _repository.SaveChangesAsync() > 0;
+            await _repository.SaveChangesAsync();
+            _repository.ChangeTracker.Clear();
+            return golfer;
         }
 
         public async Task<Golfer> GetGolfer(int id)=>
-            await _repository.Golfers.FindAsync(id);
+            await _repository.Golfers.AsNoTracking().FirstAsync(x=>x.Id==id);
         
 
-        public async Task<bool> ChangeGolfersData(Golfer golfer)
+        public async Task<Golfer> ChangeGolfersData(Golfer golfer)
         {
             _repository.Entry(golfer).State = EntityState.Modified;
-            return await _repository.SaveChangesAsync() > 0;
+            await _repository.SaveChangesAsync();
+            _repository.ChangeTracker.Clear();
+            return golfer;
         }
 
         public async Task<IEnumerable<Tee>> GetAllTees()=>
-            await _repository.Tees.ToListAsync();
+            await _repository.Tees.AsNoTracking().ToListAsync();
         
 
         public async Task<Tee> GetTee(int id) => 
-            await _repository.Tees.FindAsync(id);
+            await _repository.Tees.AsNoTracking()
+                .Include(tee=>tee.Bookings)
+                .ThenInclude(booking=>booking.Golfers)
+                .FirstAsync(x=>x.Id==id);
+
+        public async Task<TeeBooking> GetTeeBooking(int id) =>
+            await _repository.TeeBookings.AsNoTracking().FirstAsync(x=>x.Id==id);
+
+        public async Task<TeeBooking> SaveTeeBooking(TeeBooking booking)
+        {
+            if(booking.BookedTee!=null)
+                _repository.Tees.Attach(booking.BookedTee);
+            
+            if(booking.Golfers!=null)
+                booking.Golfers.Select(golfer => _repository.Golfers.Attach(golfer));
+
+            if (booking.Id > 0)
+            {
+                _repository.TeeBookings.Update(booking);
+            }
+            else
+            {
+                _repository.TeeBookings.Add(booking);
+            }
+            
+            await _repository.SaveChangesAsync();
+            _repository.ChangeTracker.Clear();
+            return booking;
+        }
     }
 }

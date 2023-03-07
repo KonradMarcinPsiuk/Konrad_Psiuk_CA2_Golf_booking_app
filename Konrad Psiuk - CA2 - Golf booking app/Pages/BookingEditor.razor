@@ -1,0 +1,31 @@
+﻿@page "/bookingeditor/new/{teeId}"
+@page "/bookingeditor/{Id}"
+
+@if (EditedBooking != null)
+{
+    <EditForm Model="@EditedBooking" OnValidSubmit="@SaveBooking">
+        <div class="input-group m-3">
+            <span class="input-group-text">Booking date and time</span>
+            <InputDate class="form-control" @bind-Value="@BookingDate"></InputDate>
+            <InputSelect  class="form-control"  @bind-Value="@BookingTime" >
+                @foreach (var option in GetTimeIntervals())
+                {
+                    <option value="@option">@option</option>
+                }
+            </InputSelect>
+        </div>
+        
+         <div class="input-group m-3">
+                            <span class="input-group-text">Golfers</span>
+             
+             <InputSelect  class="form-control"  @bind-Value="@BookingTime" >
+                 @foreach (var option in GetTimeIntervals())
+                 {
+                     <option value="@option">@option</option>
+                 }
+             </InputSelect>
+             <button type="button" class="btn btn-primary" onclick="@AddGolfer">Add golfer</button>
+                        </div>
+        <button type="submit" class="btn btn-primary">Save</button>
+    </EditForm>
+}

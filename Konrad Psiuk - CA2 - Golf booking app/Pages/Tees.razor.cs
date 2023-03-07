@@ -21,4 +21,6 @@ public partial class Tees
     {
         NavigationManager.NavigateTo($"/teeview/{id}");
     }
+
+
 }

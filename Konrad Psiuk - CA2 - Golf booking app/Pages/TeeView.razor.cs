@@ -24,6 +24,11 @@ public partial class TeeView
 
     void OpenBooking(int id)
     {
-        
+        NavigationManager.NavigateTo($"/bookingeditor/{id}");
+    }
+    
+    void NewBooking()
+    {
+        NavigationManager.NavigateTo($"/bookingeditor/new/{ViewedTee.Id}");
     }
 }

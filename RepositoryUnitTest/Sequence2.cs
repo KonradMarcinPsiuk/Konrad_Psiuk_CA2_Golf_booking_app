@@ -36,6 +36,5 @@ public class Sequence2
         var golfers = await _fixture.GolfRepository.GetAllGolfers();
         Assert.NotEmpty(golfers);
     }
-
-
+    
 }

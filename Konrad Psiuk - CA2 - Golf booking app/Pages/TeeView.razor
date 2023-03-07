@@ -1,8 +1,10 @@
 ﻿@page "/teeview/{id}"
 @using Database.Extensions
+
 @if (ViewedTee != null)
 {
     <h1 class="m3">@ViewedTee.Name</h1>
+    <button class="btn btn-success" onclick="@NewBooking">New booking</button>
     <h2 class="m3">Bookings:</h2>
     @if (ViewedTee.Bookings != null)
     {
@@ -12,6 +14,7 @@
             <th>Id</th>
             <th>Time</th>
             <th>Players</th>
+            <th>Edit</th>
         </tr>
         </thead>
         <tbody>
