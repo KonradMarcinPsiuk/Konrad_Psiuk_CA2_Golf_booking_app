@@ -77,7 +77,10 @@ namespace Database
                 .FirstAsync(x=>x.Id==id);
 
         public async Task<TeeBooking> GetTeeBooking(int id) =>
-            await _repository.TeeBookings.AsNoTracking().FirstAsync(x=>x.Id==id);
+            await _repository.TeeBookings
+                .Include(x=>x.Golfers)
+                .AsNoTracking()
+                .FirstAsync(x=>x.Id==id);
 
         public async Task<TeeBooking> SaveTeeBooking(TeeBooking booking)
         {

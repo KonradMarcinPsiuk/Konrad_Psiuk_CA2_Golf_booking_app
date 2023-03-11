@@ -21,8 +21,10 @@ public partial class BookingEditor
     private TeeBooking EditedBooking;
 
     private List<Golfer> Golfers = new();
-    private List<Golfer> SelectedGolfers = new();
+    private List<Golfer> SelectableGolfers =>
+        new (Golfers.Where(g=>EditedBooking.Golfers.Any(sg=>sg.Id==g.Id)==false));
 
+    private Golfer SelectedGolfer;
     protected override async Task OnInitializedAsync()
     {
         if (Id is not null && int.TryParse(Id, out var _id))
@@ -39,6 +41,15 @@ public partial class BookingEditor
             EditedBooking.BookingTime = DateTime.Now.AddDays(1);
         }
         Golfers.AddRange(await GolfRepository.GetAllGolfers());
+        
+    }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (SelectableGolfers.Any())
+        {
+            SelectedGolfer = SelectableGolfers.First();
+        }
     }
 
     async Task SaveBooking()
@@ -65,7 +76,19 @@ public partial class BookingEditor
 
     async Task AddGolfer()
     {
-        await JsRuntime.InvokeVoidAsync("showalert", "alert");
+        if (SelectedGolfer == null)
+        {
+            await JsRuntime.InvokeVoidAsync("showalert", "Select the golfer");
+        }
+        else if (EditedBooking.Golfers.Count >= 4)
+        {
+            await JsRuntime.InvokeVoidAsync("showalert", "Max number of golfers already selected");
+        }
+        else
+        {
+            EditedBooking.Golfers.Add(SelectedGolfer);
+        }
+        
     }
 
     void RemoveGolfer()
