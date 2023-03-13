@@ -19,7 +19,7 @@ namespace Database
             optionsBuilder.UseSqlite($"Data Source={DatabaseFilepath}")
                 .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
         }
-
+        
         public DatabaseContext()
         {
             var folder = AppDomain.CurrentDomain.BaseDirectory;

@@ -17,7 +17,11 @@
         <div>
             @foreach (var golfer in EditedBooking.Golfers)
             {
-                <i>@golfer.ToString()</i><br/>
+                <div class="m-3">
+                    <button type="button" class="btn btn-warning m-1" onclick="@(()=>RemoveGolfer(golfer))">Remove</button>
+                    <i>@golfer.ToString()</i>
+                </div>
+                
             }
         </div>
         

@@ -61,6 +61,7 @@ public partial class BookingEditor
     }
     DateOnly BookingDate { get; set; } = DateOnly.FromDateTime(DateTime.Now.AddDays(1)); 
     TimeOnly BookingTime { get; set; } = new (10, 0, 0);
+    
     List<TimeOnly> GetTimeIntervals()
     {
         var intervals = new List<TimeOnly>();
@@ -91,8 +92,9 @@ public partial class BookingEditor
         
     }
 
-    void RemoveGolfer()
+    void RemoveGolfer(Golfer golfer)
     {
-        
+        EditedBooking.Golfers.Remove(golfer);
+        StateHasChanged();
     }
 }
